@@ -145,6 +145,10 @@
     <value>Khác</value>
     <comment>Giới tính không xác định</comment>
   </data>
+  <data name="IdentityIssueDate_NotGTDateNow" xml:space="preserve">
+    <value>Ngày sinh lớn hơn ngày hiện tại!</value>
+    <comment>Message trả về cho user khi nhập thông tin ngày sinh lớn hơn ngày hiện tại</comment>
+  </data>
   <data name="InforNotEmpty" xml:space="preserve">
     <value>{0} không được để trống!</value>
     <comment>Message trả về cho user khi để trống cá trường không cho phép null</comment>

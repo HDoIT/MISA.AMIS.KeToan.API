@@ -6,9 +6,11 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using static LinqToDB.Reflection.Methods.LinqToDB.Insert;
 
 namespace MISA.AMIS.KeToan.DL
@@ -23,24 +25,30 @@ namespace MISA.AMIS.KeToan.DL
         /// Created by: LHDO(19/11/2022)
         public int DeleteMultipleEmployees(string listEmployeeID)
         {
-
             //Chuẩn bị câu lệnh SQL
             string storedProcedureName = String.Format(Procedure.GET_DELETE_MULTIPLE,typeof(Employee).Name, typeof(Employee).Name);
 
             //Chuẩn bị tham số đầu vào
             var parameters = new DynamicParameters();
             parameters.Add("@EmployeeIDs", listEmployeeID);
-
             //Thực hiện gọi vào DB
-            int deleteMultipleRowDB = 0;
 
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 // Thực hiện gọi vào DB
-                deleteMultipleRowDB = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-            }
+                int deleteMultipleRowDB = 0;
+                mySqlConnection.Open();
+                using (var mtransaction = mySqlConnection.BeginTransaction())
+                {
+                    deleteMultipleRowDB = mySqlConnection.Execute(storedProcedureName, parameters, transaction: mtransaction, commandType: System.Data.CommandType.StoredProcedure);
+                    mtransaction.Commit();
 
-            return deleteMultipleRowDB;
+                }
+                return deleteMultipleRowDB;
+
+
+
+            }
         }
 
         /// <summary>
@@ -58,7 +66,7 @@ namespace MISA.AMIS.KeToan.DL
 
             int offset = pageSize * (pageNumber- 1);
             // Chuẩn bị câu lệnh SQL
-            string storedProcedureName = "Proc_employee_GetEmployeesByFilterAndPaging";
+            string storedProcedureName = String.Format(Procedure.GET_BY_FILTER_PAGING, typeof(Employee).Name, typeof(Employee).Name);
 
             // Chuẩn bị tham số đầu vào
             var parameters = new DynamicParameters();
@@ -78,10 +86,10 @@ namespace MISA.AMIS.KeToan.DL
                 records = resultReturn.Read<Employee>().ToList();
                 var countList = resultReturn.Read<dynamic>().ToList();
                 long totalRecords = countList?.FirstOrDefault()?.TotalRecord;
+
                 decimal totalPages = Math.Ceiling((decimal)totalRecords / pageSize);
 
                 var dataResult = new PagingResult<Employee> { Data = records, totalCount = totalRecords, totalPages  = totalPages };
-
 
                 return dataResult;
             }
@@ -95,37 +103,23 @@ namespace MISA.AMIS.KeToan.DL
         /// <param name="employeeCode">Mã nhân viên cần kiểm tra</param>
         /// <returns>Bool</returns>
         /// Created by: LHDO(19/11/2022)
-        public bool CheckDuplicateCode(string employeeCode)
-        {
-            var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString);
-            var sqlQueryDuplicateCode = $"SELECT EmployeeCode FROM employee WHERE EmployeeCode = @EmployeeCode";
-            var employeeCodeDuplicate = mySqlConnection.QueryFirstOrDefault<string>(sqlQueryDuplicateCode, param: new {EmployeeCode = employeeCode});
-            if (employeeCodeDuplicate != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Kiểm tra trùng mã trước khi update
-        /// </summary>
-        /// <param name="employeeID">ID của nhân viên kiểm tra</param>
-        /// <param name="employeeCode">Mã của nhân viên kiểm tra</param>
-        /// <returns>true false</returns>
-        /// Created by: LHDO(19/11/2022) 
-        public bool CheckDuplicateCodeUpdate(string employeeID,string employeeCode)
+        public bool CheckDuplicateCode(string employeeID, string employeeCode)
         {
             var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString);
             var sqlQueryDuplicateCode = $"SELECT EmployeeCode FROM employee WHERE EmployeeCode = @EmployeeCode AND EmployeeID != @EmployeeID";
             var employeeCodeDuplicate = mySqlConnection.QueryFirstOrDefault<string>(sqlQueryDuplicateCode, param: new { EmployeeCode = employeeCode, EmployeeID = employeeID });
             if (employeeCodeDuplicate != null)
             {
-                return true;
+                return true;    
             }
             return false;
         }
 
+        /// <summary>
+        /// Lấy mã nhân viên lớn nhất
+        /// </summary>
+        /// <returns>mã nhân viên lớn nhất</returns>
+        /// Created by: LHDO(19/11/2022)
         public IEnumerable<Employee> GetMaxEmployee()
         {
             string storedProcedureName = String.Format(Procedure.GET_MAX, typeof(Employee).Name, typeof(Employee).Name);

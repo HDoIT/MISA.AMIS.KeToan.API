@@ -30,6 +30,11 @@ namespace MISA.AMIS.KeToan.BL
         /// Created by: LHD(19/11/2022)
         public PagingResult<Employee> GetByPagingAndFilter(string? keyword, string sortColumn, string sortOrder, int pageSize, int pageNumber);
 
+        /// <summary>
+        /// Lấy giá trị mã nhân viên lớn nhất
+        /// </summary>
+        /// <returns>Mã nhân viên lớn nhất</returns>
+        /// Created by: LHD(19/11/2022)
         public IEnumerable<Employee> GetMaxEmployee();
 
 

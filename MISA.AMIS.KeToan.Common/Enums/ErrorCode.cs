@@ -27,8 +27,8 @@ namespace MISA.AMIS.KeToan.Common.Enums
         InvalidCode = 3,
 
         /// <summary>
-        /// Lỗi ngày sinh lớn hơn ngày hiện tại
+        /// Lỗi ngày lớn hơn ngày hiện tại
         /// </summary>
-        DateOfBirthCode= 4,
+        Date= 4,
     }
 }

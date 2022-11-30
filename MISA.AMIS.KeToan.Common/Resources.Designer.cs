@@ -124,6 +124,15 @@ namespace MISA.AMIS.KeToan.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ngày sinh lớn hơn ngày hiện tại!.
+        /// </summary>
+        public static string IdentityIssueDate_NotGTDateNow {
+            get {
+                return ResourceManager.GetString("IdentityIssueDate_NotGTDateNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} không được để trống!.
         /// </summary>
         public static string InforNotEmpty {

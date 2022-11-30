@@ -39,7 +39,15 @@ namespace MISA.AMIS.KeToan.Common.Constants
         /// </summary>
         public static string GET_DELETE_MULTIPLE = "Proc_{0}_DeleteMultipleBy{1}ID";
 
+        /// <summary>
+        /// Format tên của procedure lấy giá trị mã bản ghi lớn nhất
+        /// </summary>
         public static string GET_MAX = "Proc_{0}_GetMax{1}";
+
+        /// <summary>
+        /// Format tên của procedure Tìm kiếm và phân trang
+        /// </summary>
+        public static string GET_BY_FILTER_PAGING = "Proc_{0}_Get{1}sByFilterAndPaging";
 
     }
 }

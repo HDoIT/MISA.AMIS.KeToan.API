@@ -295,7 +295,6 @@ namespace MISA.AMIS.KeToan.API.Controllers
 
                 };
                 return BadRequest(respone);
-
             }
             catch (Exception ex)
             {

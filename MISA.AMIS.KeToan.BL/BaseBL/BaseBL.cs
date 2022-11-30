@@ -79,7 +79,7 @@ namespace MISA.AMIS.KeToan.BL
             ValidateData(record);
             //Validate riêng
             //Validate Check mã trùng
-            ValidateDuplicateCode(record);
+            ValidateDuplicateCode(null,record);
 
             //Validate Check ngày sinh lớn hơn ngày hiện tại
             ValidateDateTime(record);
@@ -101,7 +101,7 @@ namespace MISA.AMIS.KeToan.BL
 
             //Validate riêng
             //Validate Check mã trùng
-            ValidateDuplicateCodeUpdate(recordID,record);
+            ValidateDuplicateCode(recordID,record);
 
             //Validate Check ngày sinh lớn hơn ngày hiện tại
             ValidateDateTime(record);
@@ -144,26 +144,14 @@ namespace MISA.AMIS.KeToan.BL
         }
 
         /// <summary>
-        /// Validate mã trùng trước khi thêm mới
+        /// Validate mã trùng
         /// </summary>
         /// <param name="record"></param>
         /// Created By: LHD(10/11/2022)
-        protected virtual void ValidateDuplicateCode(T record)
+        protected virtual void ValidateDuplicateCode(Guid? recordID,T record)
         {
 
         }
-
-        /// <summary>
-        /// Validate mã trùng trước khi cập nhập
-        /// </summary>
-        /// <param name="recordID"></param>
-        /// <param name="record"></param>
-        /// Created By: LHD(10/11/2022)
-        protected virtual void ValidateDuplicateCodeUpdate(Guid recordID,T record)
-        {
-
-        }
-
         /// <summary>
         /// Validate ngày sinh không lớn hơn ngày hiện tại
         /// </summary>

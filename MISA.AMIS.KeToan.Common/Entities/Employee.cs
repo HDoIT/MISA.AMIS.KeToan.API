@@ -160,6 +160,9 @@ namespace MISA.AMIS.KeToan.Common.Entities
         /// </summary>
         public string? DepartmentName { get; set; }
 
+        /// <summary>
+        /// Giá trị mã nhân viên lớn nhất
+        /// </summary>
         public string? MaxEmployeeCode { get; set; }
 
 

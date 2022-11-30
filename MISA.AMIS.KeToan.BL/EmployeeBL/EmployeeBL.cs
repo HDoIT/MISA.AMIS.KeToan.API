@@ -76,9 +76,9 @@ namespace MISA.AMIS.KeToan.BL.EmployeeBL
         /// <param name="employee">Nhân viên cần kiểm tra</param>
         /// <exception cref="MISAValidateException">Mã nhân viên đã tồn tại</exception>
         /// Created by: LHD(19/11/2022)
-        protected override void ValidateDuplicateCode(Employee employee)
+        protected override void ValidateDuplicateCode(Guid? recordID,Employee employee)
         {
-            var isDuplicate = _employeeDL.CheckDuplicateCode(employee.EmployeeCode);
+            var isDuplicate = _employeeDL.CheckDuplicateCode(recordID.ToString(), employee.EmployeeCode);
             if(isDuplicate == true)
             {
                 throw new MISAValidateException(String.Format(Resources.Duplicate_Code, employee.EmployeeCode), ErrorCode.DuplicateCode);
@@ -86,26 +86,20 @@ namespace MISA.AMIS.KeToan.BL.EmployeeBL
         }
 
         /// <summary>
-        /// 
+        /// Validate ngày sinh và ngày cấp không lớn hơn ngày hiện tại
         /// </summary>
-        /// <param name="recordCode"></param>
         /// <param name="employee"></param>
-        /// <exception cref="MISAValidateException"></exception>
-        protected override void ValidateDuplicateCodeUpdate(Guid recordID,Employee employee)
-        {
-
-            var isDuplicate = _employeeDL.CheckDuplicateCodeUpdate(recordID.ToString(),employee.EmployeeCode);
-            if (isDuplicate == true)
-            {
-                throw new MISAValidateException(String.Format(Resources.Duplicate_Code, employee.EmployeeCode), ErrorCode.DuplicateCode);
-            }
-        }
-
+        /// <exception cref="MISAValidateException">Lỗi ngày lớn hơn ngày hiện tại</exception>
+        /// Created by: LHD(19/11/2022)
         protected override void ValidateDateTime(Employee employee)
         {
             if(employee.DateOfBirth > DateTime.Now)
             {
-                throw new MISAValidateException(Resources.DateOfBirth_NotGTDateNow, ErrorCode.DateOfBirthCode);
+                throw new MISAValidateException(Resources.DateOfBirth_NotGTDateNow, ErrorCode.Date);
+            }
+            if (employee.IdentityIssueDate > DateTime.Now)
+            {
+                throw new MISAValidateException(Resources.IdentityIssueDate_NotGTDateNow, ErrorCode.Date);
             }
         }
 

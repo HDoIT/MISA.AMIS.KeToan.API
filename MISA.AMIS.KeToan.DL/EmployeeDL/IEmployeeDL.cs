@@ -33,7 +33,8 @@ namespace MISA.AMIS.KeToan.DL
         /// <summary>
         /// Lấy max mã nhân viên
         /// </summary>
-        /// <returns></returns>
+        /// <returns> mã nhân viên</returns>
+        /// Created by: LHDO(19/11/2022)
         public IEnumerable<Employee> GetMaxEmployee();
 
         /// <summary>
@@ -42,14 +43,7 @@ namespace MISA.AMIS.KeToan.DL
         /// <param name="employeeCode">Mã nhân viên cần kiểm tra</param>
         /// <returns>Bool</returns>
         /// Created by: LHDO(19/11/2022)
-        bool CheckDuplicateCode(string employeeCode);
+        bool CheckDuplicateCode(string employeeID, string employeeCode);
 
-        /// <summary>
-        /// Kiểm tra trung mã trước khi cập nhập bản ghi
-        /// </summary>
-        /// <param name="employeeID"></param>
-        /// <param name="employeeCode"></param>
-        /// <returns></returns>
-        bool CheckDuplicateCodeUpdate(string employeeID,string employeeCode);
     }
 }
