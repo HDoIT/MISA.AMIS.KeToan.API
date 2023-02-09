@@ -34,7 +34,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://misaamisketoanapi-production.up.railway.app",
+      "applicationUrl": "http://localhost:49959",
       "sslPort": 0
     }
   }
