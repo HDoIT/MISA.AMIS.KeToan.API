@@ -3,7 +3,7 @@
     "MISA.AMIS.KeToan.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl":"",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -34,7 +34,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:49959",
+      "applicationUrl": "https://misaamisketoanapi-production.up.railway.app",
       "sslPort": 0
     }
   }
